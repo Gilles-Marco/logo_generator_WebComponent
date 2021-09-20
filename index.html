@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+    <title>M2 TP1</title>
+    <meta charset="utf-8" />
+    <base href="/"/>
+</head>
+
+<body>
+    <button id="reload_animation">Restart animation</button>
+    <app-logo id="app_logo" />
+    
+    <script src="components/index.js" type="module"></script>
+    <script>
+        function main(){
+            let logo = document.querySelector("#app_logo")
+            let btn_animation = document.querySelector("#reload_animation")
+            btn_animation.addEventListener("click", ()=>{
+                console.log(logo)
+                logo.startAnimation()
+            })
+        }
+
+        window.onload = main;
+    </script>
+</body>
+
+</html>

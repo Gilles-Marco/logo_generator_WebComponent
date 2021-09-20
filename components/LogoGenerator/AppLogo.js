@@ -2,8 +2,13 @@ import sheet from './animation.css' assert { type: 'css' };
 
 export default class AppLogo extends HTMLElement {
 
+    animations = {
+        '': 'None',
+        'tracking-in-expand': 'tracking in expand',
+        'text-focus-in': 'text focus in'
+    }
+
     template = document.createElement("template")
-    style = ``
     html = `
     <div id="logo" class="">Mon logo 2</div>
     <br>
@@ -13,20 +18,34 @@ export default class AppLogo extends HTMLElement {
     <br>
     Animation : <select id="animation_input">
         <option value="">None</option>
-        <option value="tracking-in-expand">tracking in expand</option>
-        <option value="text-focus-in">text focus in</option>
+        ${this._generate_animation_options()}
     </select>
     `
+
+    _generate_animation_options(){
+        let animation_rules = Object.values(sheet.rules).filter((rule)=>{
+            if(rule.style){
+                if(rule.style.animation) return rule
+            }
+        })
+
+        
+
+        return animation_rules.map((animation)=>{
+            return `<option value="${animation.selectorText.replace('.', '')}">${animation.selectorText.replaceAll('-', ' ').replace('.', '')}</option>`
+        }).join("")
+    }
+    
 
     constructor() {
         super()
         this.attachShadow({ mode: "open" })
         this.shadowRoot.adoptedStyleSheets = [sheet]
-        this.logo = null
         this.oldAnimationClass = ""
         this.animationClass = ""
         this.size = 40
         this.color = "#FF0000"
+        this.logo = null
     }
 
     static get observedAttributes() {
@@ -47,6 +66,8 @@ export default class AppLogo extends HTMLElement {
        this.template.innerHTML = `<style>${this.style}</style>${this.html}`
        this.shadowRoot.appendChild(this.template.content.cloneNode(true))
        this.logo = this.shadowRoot.querySelector("#logo")
+       this.logo.style.fontSize = `${this.size}px`
+       this.logo.style.color = this.color
        this.addListeners()
     }
 
@@ -69,9 +90,11 @@ export default class AppLogo extends HTMLElement {
 
     changeColor(val) {
         this.logo.style.color = val
+        this.setAttribute('color', val)
     }
 
     changeSize(val) {
+        this.setAttribute('size', val)
         this.logo.style.fontSize = val + "px"
     }
 
@@ -80,17 +103,20 @@ export default class AppLogo extends HTMLElement {
             this.logo.classList.toggle(`${this.oldAnimationClass}`)
         }
         if(val){
-            this.logo.classList.toggle(`${val}`)
+            let return_value = this.logo.classList.toggle(`${val}`)
+            if(return_value) this.animationClass = val
         }
         
         this.oldAnimationClass = val
     }
 
     startAnimation(){
-        console.log(("restart animation"))
-        this.logo.classList.toggle(this.oldAnimationClass)
-        setTimeout(()=>{
-            this.logo.classList.toggle(this.oldAnimationClass)
-        }, 100)
+        if(this.animationClass){
+            this.logo.classList.toggle(this.animationClass)
+            setTimeout(()=>{
+                this.logo.classList.toggle(this.animationClass)
+            }, 100)
+        }
+        
     }
 }

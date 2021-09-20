@@ -1,0 +1,42 @@
+* {
+    text-rendering: geometricPrecision;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.controler {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin : 1em 0em 1em 0em;
+}
+
+.controler > button {
+    margin: 0 2em;
+    padding: 1em;
+    font-size: 1.5em;
+    border: none;
+    border-radius: 20px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.red-bg {
+    background-color: rgb(255, 105, 105);
+}
+
+.white-text {
+    color: white;
+}
+
+.transparent-bg {
+    background-color: transparent;
+}
+
+.blue-text {
+    color: #2400c5;
+}
+
+.blue-border {
+    border: 2px solid  #2400c5 !important;
+}

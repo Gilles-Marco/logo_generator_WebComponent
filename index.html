@@ -4,13 +4,18 @@
 
 <head>
     <title>M2 TP1</title>
+    <link href="style.css" rel="stylesheet">
     <meta charset="utf-8" />
     <base href="/"/>
 </head>
 
 <body>
-    <button id="reload_animation">Restart animation</button>
-    <app-logo id="app_logo" />
+    
+    <app-logo id="app_logo"></app-logo>
+    <div class="controler">
+        <button id="generate_code" class="red-bg white-text">Generate Code</button>
+        <button id="reload_animation" class="transparent-bg blue-text blue-border">Restart animation</button>
+    </div>
     
     <script src="components/index.js" type="module"></script>
     <script>
@@ -18,8 +23,12 @@
             let logo = document.querySelector("#app_logo")
             let btn_animation = document.querySelector("#reload_animation")
             btn_animation.addEventListener("click", ()=>{
-                console.log(logo)
                 logo.startAnimation()
+            })
+
+            let btn_generate = document.querySelector("#generate_code")
+            btn_generate.addEventListener("click", ()=>{
+                // Insert code to generate the code
             })
         }
 

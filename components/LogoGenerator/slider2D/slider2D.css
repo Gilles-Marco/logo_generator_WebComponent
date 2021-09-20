@@ -1,0 +1,51 @@
+#container {
+    position: relative;
+    width: 70%;
+    height: 70%;
+    min-width: 200px;
+    min-height: 200px;
+    background-color: lightsteelblue;
+    margin: 2em 0 5em 5em;
+    cursor: pointer;
+}
+
+#container::before {
+    content: "Position";
+    position: relative;
+    left: calc(50% - 2em);
+    top: -2em;
+}
+
+#div-height , #div-width, label {
+    text-align: center;
+    user-select: none;
+}
+
+#div-height {
+    width: 100%;
+    position: relative;
+    transform: rotate3d(0, 0, 1, -90deg);
+    left: -50%;
+    top: -65%;
+}
+
+#div-height > input, #div-width > input {
+    width: calc(100% - 5em);
+}
+
+#div-width {
+    position: relative;
+    top: -10%;
+    left: 5%;
+}
+
+#circle {
+    position: absolute;
+    left: 0%;
+    top: 0%;
+    height: 10px;
+    width: 10px;
+    background-color: red;
+    border: solid 2px black;
+    border-radius: 100%;
+}

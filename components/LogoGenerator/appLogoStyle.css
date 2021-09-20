@@ -3,6 +3,12 @@
     flex-direction: row;
 }
 
+.size-controler {
+    display: block;
+    width: 400px;
+    height: 400px;
+}
+
 .card {
     background-color: rgb(241, 241, 241);
     border: none;

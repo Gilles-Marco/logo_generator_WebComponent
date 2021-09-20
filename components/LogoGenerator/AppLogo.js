@@ -5,17 +5,20 @@ export default class AppLogo extends HTMLElement {
 
     template = document.createElement("template")
     html = `
+    <script type="module" src="slider2D/index.js"></script>
     <div id="logo" class="">Mon logo 2</div>
     <div class="logo-controler">
         <div class="card size-controler">
-        Hello
+            <slider-2d></slider-2d>
+        </div>
+        <div class="card animation-controler">
+            Animation : <select id="animation_input">
+                <option value="">None</option>
+                ${this._generate_animation_options()}
+            </select>
+        </div>
     </div>
-    <div class="card animation-controler">
-        Animation : <select id="animation_input">
-            <option value="">None</option>
-            ${this._generate_animation_options()}
-        </select>
-    </div>
+    
     </div>
     `
 

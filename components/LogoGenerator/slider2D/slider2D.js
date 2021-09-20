@@ -20,13 +20,15 @@ export default class Slider2D extends HTMLElement {
         </div>
     `
     static get observedAttributes() {
-        return ["rate-x", "rate-y"];
+        return ["rate-x", "rate-y", 'height', 'width'];
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
         // do something when an attribute has changed
         if (name == "rate-x") this.rateXHandler(newValue)
-        if (name == "rate-y") this.rateYHandler(newValue)
+        else if (name == "rate-y") this.rateYHandler(newValue)
+        else if (name == "height") this.heightHandler(newValue)
+        else if (name == "width") this.widthHandler(newValue)
     }
 
     connectedCallback() {
@@ -156,6 +158,14 @@ export default class Slider2D extends HTMLElement {
 
     getWidth() {
         return this.getAttribute('width')
+    }
+
+    heightHandler(value){
+        this.height_input.value = value.replace('%', '')
+    }
+
+    widthHandler(value){
+        this.width_input.value = value.replace('%', '')
     }
 
 }

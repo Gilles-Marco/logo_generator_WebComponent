@@ -6,10 +6,12 @@ export default class AppLogo extends HTMLElement {
     template = document.createElement("template")
     html = `
     <script type="module" src="slider2D/index.js"></script>
-    <div id="logo" class="">Mon logo 2</div>
+    <div id="logo-container" class="">
+        <p id="logo">Mon logo</p>
+    </div>
     <div class="logo-controler">
         <div class="card size-controler">
-            <slider-2d></slider-2d>
+            <slider-2d id="slider-2d" width="100%"></slider-2d>
         </div>
         <div class="card animation-controler">
             Animation : <select id="animation_input">
@@ -38,6 +40,7 @@ export default class AppLogo extends HTMLElement {
         this.template.innerHTML = `${this.html}`
         this.shadowRoot.appendChild(this.template.content.cloneNode(true))
         this.logo = this.shadowRoot.querySelector("#logo")
+        this.slider2d = this.shadowRoot.querySelector("#slider-2d")
         this._apply_style_on_logo()
         this.addListeners()
     }
@@ -47,6 +50,10 @@ export default class AppLogo extends HTMLElement {
             .addEventListener("change", (event) => {
                 this.setAttribute("animation-class", event.target.value)
             })
+
+        this.slider2d.addEventListener('update::rate-y', (event)=>{
+            console.log(event.detail)
+        })
     }
 
     _generate_animation_options() {
@@ -84,6 +91,7 @@ export default class AppLogo extends HTMLElement {
         this.logo = null
         this.size = 40
         this.color = "#FF0000"
+        this.slider2d = null
     }
 
     changeAnimation(val) {
@@ -105,6 +113,5 @@ export default class AppLogo extends HTMLElement {
                 this.logo.classList.toggle(this.animationClass)
             }, 100)
         }
-
     }
 }

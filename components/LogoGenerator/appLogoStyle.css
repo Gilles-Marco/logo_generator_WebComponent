@@ -1,3 +1,7 @@
+#logo-container {
+    width: 100%;
+}
+
 .logo-controler {
     display: flex;
     flex-direction: row;

@@ -16,7 +16,7 @@ export default class Slider2D extends HTMLElement {
         <div id="div-height">
             height
             <br>
-            0 <input type="range" val="100" max="100" min="0" id="size-height"/> 100
+            0 <input type="range" val="100" max="200" min="0" id="size-height"/> 200
         </div>
     `
     static get observedAttributes() {
@@ -39,6 +39,12 @@ export default class Slider2D extends HTMLElement {
         this.container = this.shadowRoot.querySelector("#container")
         this.width_input = this.shadowRoot.querySelector("#size-width")
         this.height_input = this.shadowRoot.querySelector("#size-height")
+
+        let width = this.getAttribute('width')
+        if(width) this.width_input.value = width.replace('%', '')
+        let height = this.getAttribute('height')
+        if(height) this.height_input.value = height.replace('%', '')
+
         this.addEventListener()
     }
 
@@ -46,12 +52,9 @@ export default class Slider2D extends HTMLElement {
         super()
         this.attachShadow({ mode: "open" })
         this.shadowRoot.adoptedStyleSheets = [slider2DStyle]
-        this.size = 100
         this.circle = null
         this.width_input = null
         this.height_input = null
-        this.rateX = 0
-        this.rateY = 0
         self = this
     }
 
@@ -116,10 +119,18 @@ export default class Slider2D extends HTMLElement {
 
     setRateX(rateX) {
         this.setAttribute('rate-x', rateX)
+        let event = new CustomEvent('update::rate-x', {
+            detail: rateX
+        })
+        this.dispatchEvent(event)
     }
 
     setRateY(rateY) {
         this.setAttribute('rate-y', rateY)
+        let event = new CustomEvent('update::rate-y', {
+            detail: rateY
+        })
+        this.dispatchEvent(event)
     }
 
     getRateY() {
@@ -146,6 +157,10 @@ export default class Slider2D extends HTMLElement {
 
     setHeight(val) {
         this.setAttribute('height', `${val}%`)
+        let event = new CustomEvent('update::height', {
+            detail: val
+        })
+        this.dispatchEvent(event)
     }
 
     getHeight() {
@@ -154,18 +169,26 @@ export default class Slider2D extends HTMLElement {
 
     setWidth(val) {
         this.setAttribute('width', `${val}%`)
+        let event = new CustomEvent('update::width', {
+            detail: val
+        })
+        this.dispatchEvent(event)
     }
 
     getWidth() {
         return this.getAttribute('width')
     }
 
-    heightHandler(value){
-        this.height_input.value = value.replace('%', '')
+    heightHandler(value) {
+        if (this.height_input) {
+            this.height_input.value = value.replace('%', '')
+        }
     }
 
-    widthHandler(value){
-        this.width_input.value = value.replace('%', '')
+    widthHandler(value) {
+        if (this.width_input) {
+            this.width_input.value = value.replace('%', '')
+        }
     }
 
 }

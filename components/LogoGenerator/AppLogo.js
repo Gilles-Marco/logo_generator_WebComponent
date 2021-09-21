@@ -11,7 +11,7 @@ export default class AppLogo extends HTMLElement {
     </div>
     <div class="logo-controler">
         <div class="card size-controler">
-            <slider-2d id="slider-2d" width="100%"></slider-2d>
+            <slider-2d id="slider-2d" width="100"></slider-2d>
         </div>
         <div class="card animation-controler">
             Animation : <select id="animation_input">

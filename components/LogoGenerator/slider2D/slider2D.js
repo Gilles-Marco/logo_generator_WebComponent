@@ -41,9 +41,9 @@ export default class Slider2D extends HTMLElement {
         this.height_input = this.shadowRoot.querySelector("#size-height")
 
         let width = this.getAttribute('width')
-        if(width) this.width_input.value = width.replace('%', '')
+        if(width) this.width_input.value = width
         let height = this.getAttribute('height')
-        if(height) this.height_input.value = height.replace('%', '')
+        if(height) this.height_input.value = height
 
         this.addEventListener()
     }
@@ -156,7 +156,8 @@ export default class Slider2D extends HTMLElement {
     }
 
     setHeight(val) {
-        this.setAttribute('height', `${val}%`)
+        if(this.height_input) this.height_input.value = val
+        this.setAttribute('height', `${val}`)
         let event = new CustomEvent('update::height', {
             detail: val
         })
@@ -168,7 +169,8 @@ export default class Slider2D extends HTMLElement {
     }
 
     setWidth(val) {
-        this.setAttribute('width', `${val}%`)
+        if(this.width_input) this.width_input.value = val
+        this.setAttribute('width', `${val}`)
         let event = new CustomEvent('update::width', {
             detail: val
         })
@@ -181,13 +183,13 @@ export default class Slider2D extends HTMLElement {
 
     heightHandler(value) {
         if (this.height_input) {
-            this.height_input.value = value.replace('%', '')
+            this.height_input.value = value
         }
     }
 
     widthHandler(value) {
         if (this.width_input) {
-            this.width_input.value = value.replace('%', '')
+            this.width_input.value = value
         }
     }
 

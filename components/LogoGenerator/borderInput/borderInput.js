@@ -28,6 +28,7 @@ export default class BorderInput extends HTMLElement {
     constructor(){
         super()
         this.attachShadow({ mode: "open" })
+        self = this
     }
 
     _add_listeners(){
@@ -45,9 +46,9 @@ export default class BorderInput extends HTMLElement {
 
     _emit_event(){
         let event = new CustomEvent('border::update', {
-            detail : this._gen_css_style()
+            detail : self._gen_css_style()
         })
-        this.dispatchEvent(event)
+        self.dispatchEvent(event)
     }
 
 }

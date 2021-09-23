@@ -21,7 +21,7 @@ export default class AppLogo extends HTMLElement {
                 <option value="">None</option>
                 ${this._generate_animation_options()}
             </select>
-            <border-input></border-input>
+            <border-input id="border-input"></border-input>
             <background-input></background-input>
         </div>
     </div>
@@ -45,7 +45,7 @@ export default class AppLogo extends HTMLElement {
         this.template.innerHTML = `${this.html}`
         this.shadowRoot.appendChild(this.template.content.cloneNode(true))
         this.logo_container = this.shadowRoot.querySelector("#logo-container")
-        this.logo_container.style.height = `${this.size}px`
+        this.logo_container.style.height = `${this.size * 2}px`
         this.logo = this.shadowRoot.querySelector("#logo")
         this.slider2d = this.shadowRoot.querySelector("#slider-2d")
         this._apply_style_on_logo()
@@ -58,15 +58,15 @@ export default class AppLogo extends HTMLElement {
                 this.setAttribute("animation-class", event.target.value)
             })
 
-        this.shadowRoot.querySelector("#logo-text").addEventListener("input", (event)=>{
+        this.shadowRoot.querySelector("#logo-text").addEventListener("input", (event) => {
             this.logo.innerHTML = event.target.value
         })
 
-        this.shadowRoot.querySelector("#logo-size").addEventListener("input", (event)=>{
+        this.shadowRoot.querySelector("#logo-size").addEventListener("input", (event) => {
             this.logo.style.fontSize = `${event.target.value}px`
         })
 
-        this.shadowRoot.querySelector("#logo-color").addEventListener("input", (event)=>{
+        this.shadowRoot.querySelector("#logo-color").addEventListener("input", (event) => {
             this.logo.style.color = event.target.value
         })
 
@@ -84,6 +84,10 @@ export default class AppLogo extends HTMLElement {
         })
         this.slider2d.addEventListener('update::height', (event) => {
             this.logo_container.style.height = `${event.detail}px`
+        })
+
+        this.shadowRoot.querySelector('#border-input').addEventListener("border::update", (event) => {
+            this.logo_container.style.border = event.detail
         })
     }
 

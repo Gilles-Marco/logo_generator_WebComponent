@@ -13,7 +13,7 @@ export default class BorderInput extends HTMLElement {
             <option value="ridge">ridge</option>
             <option value="dotted">dotted</option>
         </select>
-        <input type="number" id="border-size-input"/>
+        <input type="number" value="0" id="border-size-input"/>
         <input type="color" id="border-color-input"/>
         </div>
     `

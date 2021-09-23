@@ -13,11 +13,16 @@ export default class AppLogo extends HTMLElement {
         <div class="card size-controler">
             <slider-2d id="slider-2d" width="100"></slider-2d>
         </div>
-        <div class="card animation-controler">
+        <div class="card text-controler">
+            Texte : <input id="logo-text" type="text" value="Mon logo" /><br>
+            Taille du texte : <input id="logo-size" type="number" value="40"/><br>
+            Couleur : <input id="logo-color" type="color" value="#FF0000"/><br>
             Animation : <select id="animation_input">
                 <option value="">None</option>
                 ${this._generate_animation_options()}
             </select>
+            <border-input></border-input>
+            <background-input></background-input>
         </div>
     </div>
     
@@ -39,6 +44,8 @@ export default class AppLogo extends HTMLElement {
         */
         this.template.innerHTML = `${this.html}`
         this.shadowRoot.appendChild(this.template.content.cloneNode(true))
+        this.logo_container = this.shadowRoot.querySelector("#logo-container")
+        this.logo_container.style.height = `${this.size}px`
         this.logo = this.shadowRoot.querySelector("#logo")
         this.slider2d = this.shadowRoot.querySelector("#slider-2d")
         this._apply_style_on_logo()
@@ -51,8 +58,32 @@ export default class AppLogo extends HTMLElement {
                 this.setAttribute("animation-class", event.target.value)
             })
 
-        this.slider2d.addEventListener('update::rate-y', (event)=>{
-            console.log(event.detail)
+        this.shadowRoot.querySelector("#logo-text").addEventListener("input", (event)=>{
+            this.logo.innerHTML = event.target.value
+        })
+
+        this.shadowRoot.querySelector("#logo-size").addEventListener("input", (event)=>{
+            this.logo.style.fontSize = `${event.target.value}px`
+        })
+
+        this.shadowRoot.querySelector("#logo-color").addEventListener("input", (event)=>{
+            this.logo.style.color = event.target.value
+        })
+
+        this.slider2d.addEventListener('update::rate-y', (event) => {
+            let logo_container_rect = this.logo_container.getBoundingClientRect()
+            this.logo.style.top = `${event.detail * logo_container_rect.height - this.size}px`
+        })
+        this.slider2d.addEventListener('update::rate-x', (event) => {
+            let logo_conainer_rect = this.logo_container.getBoundingClientRect()
+            this.logo.style.left = `${event.detail * logo_conainer_rect.width}px`
+        })
+
+        this.slider2d.addEventListener('update::width', (event) => {
+            this.logo_container.style.width = `${event.detail}%`
+        })
+        this.slider2d.addEventListener('update::height', (event) => {
+            this.logo_container.style.height = `${event.detail}px`
         })
     }
 
@@ -77,8 +108,6 @@ export default class AppLogo extends HTMLElement {
         */
         this.logo.style.fontSize = `${this.size}px`
         this.logo.style.color = this.color
-        this.logo.style.width = "100%"
-        this.logo.style.height = `${this.size * 2}px`
     }
 
 
@@ -88,6 +117,7 @@ export default class AppLogo extends HTMLElement {
         this.shadowRoot.adoptedStyleSheets = [appLogoStyle, animation]
         this.oldAnimationClass = ""
         this.animationClass = ""
+        this.logo_container = null
         this.logo = null
         this.size = 40
         this.color = "#FF0000"

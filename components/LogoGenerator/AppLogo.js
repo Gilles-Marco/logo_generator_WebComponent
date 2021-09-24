@@ -22,7 +22,7 @@ export default class AppLogo extends HTMLElement {
                 ${this._generate_animation_options()}
             </select>
             <border-input id="border-input"></border-input>
-            <background-input></background-input>
+            <background-input id="background-input"></background-input>
         </div>
     </div>
     
@@ -89,6 +89,12 @@ export default class AppLogo extends HTMLElement {
         this.shadowRoot.querySelector('#border-input').addEventListener("border::update", (event) => {
             this.logo_container.style.border = event.detail
         })
+
+        this.shadowRoot.querySelector("#background-input").addEventListener('background::change', (event)=>{
+            Object.keys(event.detail).forEach((key)=>{
+                this.logo_container.style[key] = event.detail[key]
+            })
+        })
     }
 
     _generate_animation_options() {
@@ -126,6 +132,7 @@ export default class AppLogo extends HTMLElement {
         this.size = 40
         this.color = "#FF0000"
         this.slider2d = null
+        self = this
     }
 
     changeAnimation(val) {

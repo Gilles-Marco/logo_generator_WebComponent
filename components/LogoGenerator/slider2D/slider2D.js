@@ -55,11 +55,11 @@ export default class Slider2D extends HTMLElement {
         this.circle = null
         this.width_input = null
         this.height_input = null
-        self = this
+        this.event_listener = null
     }
 
     _pointer_move_handler(event) {
-        let container_rect = self.container.getBoundingClientRect()
+        let container_rect = this.container.getBoundingClientRect()
 
         let new_circle_posX, new_circle_posY = 0
 
@@ -83,8 +83,8 @@ export default class Slider2D extends HTMLElement {
             new_circle_posY = event.y - container_rect.top
         }
 
-        self.setRateX(new_circle_posX / container_rect.width)
-        self.setRateY(new_circle_posY / container_rect.height)
+        this.setRateX(new_circle_posX / container_rect.width)
+        this.setRateY(new_circle_posY / container_rect.height)
     }
 
     addEventListener() {
@@ -100,11 +100,11 @@ export default class Slider2D extends HTMLElement {
         })
 
         this.container.addEventListener('pointerdown', (event) => {
-            this.container.addEventListener('pointermove', this._pointer_move_handler)
+            this.container.addEventListener('pointermove', this.event_listener = (event)=>{this._pointer_move_handler(event)})
         })
 
         this.container.addEventListener('pointerup', (event) => {
-            this.container.removeEventListener('pointermove', this._pointer_move_handler)
+            this.container.removeEventListener('pointermove', this.event_listener)
         })
 
         this.height_input.addEventListener('input', (event) => {

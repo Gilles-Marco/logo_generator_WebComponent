@@ -46,12 +46,12 @@ export default class BackgroundInput extends HTMLElement {
         let event = new CustomEvent('background::change', {
             detail: background_css
         })
-        self.dispatchEvent(event)
+        this.dispatchEvent(event)
     }
 
     async _css_generator(method_type){
         if(method_type == 'file'){
-            let file = self.shadowRoot.querySelector("#file-input").files[0]
+            let file = this.shadowRoot.querySelector("#file-input").files[0]
             let data = await new Promise((resolve, reject)=>{
                 let reader = new FileReader()
                 reader.onload = (e)=>resolve(reader.result)
@@ -60,10 +60,10 @@ export default class BackgroundInput extends HTMLElement {
             return {'backgroundImage': `url(${data})`}
         }
         else if(method_type == "url"){
-            return { 'backgroundImage': `url(${self.shadowRoot.querySelector('#url-input').value})`}
+            return { 'backgroundImage': `url(${this.shadowRoot.querySelector('#url-input').value})`}
         }
         else if(method_type == 'color'){
-            return {'backgroundColor': self.shadowRoot.querySelector("#color-input").value}
+            return {'backgroundColor': this.shadowRoot.querySelector("#color-input").value}
         }
         else{
             console.error(`_css_generator doesn't know the type ${method_type}`)
@@ -84,16 +84,16 @@ export default class BackgroundInput extends HTMLElement {
         }
 
         this.shadowRoot.querySelector('#url-input').addEventListener('input', async (event)=>{
-            // console.log(await self._css_generator('url'))
-            self._emit_event(await self._css_generator('url'))
+            // console.log(await this._css_generator('url'))
+            this._emit_event(await this._css_generator('url'))
         })
 
         this.shadowRoot.querySelector('#file-input').addEventListener('input', async (event)=>{
-            self._emit_event(await self._css_generator('file'))
+            this._emit_event(await this._css_generator('file'))
         })
 
         this.shadowRoot.querySelector('#color-input').addEventListener('input', async (event)=>{
-            self._emit_event(await self._css_generator('color'))
+            this._emit_event(await this._css_generator('color'))
         })
     }
     
@@ -101,6 +101,5 @@ export default class BackgroundInput extends HTMLElement {
         super()
         this.attachShadow({ mode: "open" })
         this.nb_tab = 3
-        self = this
     }   
 }

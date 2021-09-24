@@ -87,6 +87,7 @@ export default class AppLogo extends HTMLElement {
         })
 
         this.shadowRoot.querySelector('#border-input').addEventListener("border::update", (event) => {
+            console.log(event.detail)
             this.logo_container.style.border = event.detail
         })
 
@@ -140,7 +141,6 @@ export default class AppLogo extends HTMLElement {
         this.size = 40
         this.color = "#FF0000"
         this.slider2d = null
-        self = this
     }
 
     changeAnimation(val) {

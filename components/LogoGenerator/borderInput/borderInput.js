@@ -28,13 +28,12 @@ export default class BorderInput extends HTMLElement {
     constructor(){
         super()
         this.attachShadow({ mode: "open" })
-        self = this
     }
 
     _add_listeners(){
-        this.shadowRoot.querySelector("#border-size-input").addEventListener('input', this._emit_event)
-        this.shadowRoot.querySelector("#border-type-input").addEventListener('change', this._emit_event)
-        this.shadowRoot.querySelector("#border-color-input").addEventListener('input', this._emit_event)
+        this.shadowRoot.querySelector("#border-size-input").addEventListener('input', (event) => {this._emit_event()})
+        this.shadowRoot.querySelector("#border-type-input").addEventListener('input', (event) =>{this._emit_event()})
+        this.shadowRoot.querySelector("#border-color-input").addEventListener('input', (event)=>{this._emit_event()})
     }
 
     _gen_css_style(){
@@ -46,9 +45,9 @@ export default class BorderInput extends HTMLElement {
 
     _emit_event(){
         let event = new CustomEvent('border::update', {
-            detail : self._gen_css_style()
+            detail : this._gen_css_style()
         })
-        self.dispatchEvent(event)
+        this.dispatchEvent(event)
     }
 
 }

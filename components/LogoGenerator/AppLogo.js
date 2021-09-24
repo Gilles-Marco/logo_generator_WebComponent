@@ -91,9 +91,17 @@ export default class AppLogo extends HTMLElement {
         })
 
         this.shadowRoot.querySelector("#background-input").addEventListener('background::change', (event)=>{
-            Object.keys(event.detail).forEach((key)=>{
-                this.logo_container.style[key] = event.detail[key]
-            })
+            if(event.detail.backgroundColor){
+                this.logo_container.style.backgroundImage = 'none'
+                this.logo_container.style.backgroundColor = event.detail.backgroundColor
+            }
+            else if(event.detail.backgroundImage){
+                this.logo_container.style.backgroundColor = 'none'
+                this.logo_container.style.backgroundImage = event.detail.backgroundImage
+            }
+            else{
+                console.error(`Doesnt know the event detail type ${event.detail}`)
+            }
         })
     }
 

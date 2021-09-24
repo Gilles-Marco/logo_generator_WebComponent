@@ -83,16 +83,17 @@ export default class BackgroundInput extends HTMLElement {
             })
         }
 
-        this.shadowRoot.querySelector('#url-input').addEventListener('input', (event)=>{
-            self._emit_event(self._css_generator('url'))
+        this.shadowRoot.querySelector('#url-input').addEventListener('input', async (event)=>{
+            // console.log(await self._css_generator('url'))
+            self._emit_event(await self._css_generator('url'))
         })
 
         this.shadowRoot.querySelector('#file-input').addEventListener('input', async (event)=>{
             self._emit_event(await self._css_generator('file'))
         })
 
-        this.shadowRoot.querySelector('#color-input').addEventListener('input', (event)=>{
-            self._emit_event(self._css_generator('color'))
+        this.shadowRoot.querySelector('#color-input').addEventListener('input', async (event)=>{
+            self._emit_event(await self._css_generator('color'))
         })
     }
     

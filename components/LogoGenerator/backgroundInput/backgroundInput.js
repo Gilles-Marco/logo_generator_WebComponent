@@ -13,18 +13,15 @@ export default class BackgroundInput extends HTMLElement {
             </div>
             <div id="tabs-content">
                 <div id="tab-content-1">
-                    Background URL 
-                    <br>
+                    <label>Background URL</label>
                     <input type="text" id="url-input" />
                 </div>
                 <div id="tab-content-2">
-                    Upload Background File 
-                    <br>
+                    <label>Upload Background File</label>
                     <input type="file" accept="image/jpg, image/jpeg, image/png, image/gif" id="file-input" />
                 </div>
                 <div id="tab-content-3">
-                    Choose a color for your background 
-                    <br>
+                    <label>Choose a color for your background</label>
                     <input type="color" id="color-input" />
                 </div>
             </div>

@@ -22,6 +22,9 @@
 }
 
 #tabs-content .tab-selected {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     visibility: visible;
     border: 2px solid black;
     width: 100%;
@@ -34,4 +37,9 @@
     display: block;
     visibility: hidden;
     height: 100%;
+}
+
+.tab-selected > input,
+.tab-selected > label {
+    margin: 0.25rem 1rem;
 }

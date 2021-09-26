@@ -5,7 +5,6 @@ export default class AppLogo extends HTMLElement {
 
     template = document.createElement("template")
     html = `
-    <script type="module" src="slider2D/index.js"></script>
     <div id="logo-container" class="">
         <p id="logo">Mon logo</p>
     </div>
@@ -23,6 +22,7 @@ export default class AppLogo extends HTMLElement {
             </select>
             <border-input id="border-input"></border-input>
             <background-input id="background-input"></background-input>
+            Font url : <input id="input-font" type="text"/>
         </div>
     </div>
     
@@ -48,6 +48,7 @@ export default class AppLogo extends HTMLElement {
         this.logo_container.style.height = `${this.size * 2}px`
         this.logo = this.shadowRoot.querySelector("#logo")
         this.slider2d = this.shadowRoot.querySelector("#slider-2d")
+        this.font_input = this.shadowRoot.querySelector("#input-font")
         this._apply_style_on_logo()
         this.addListeners()
     }
@@ -87,7 +88,6 @@ export default class AppLogo extends HTMLElement {
         })
 
         this.shadowRoot.querySelector('#border-input').addEventListener("border::update", (event) => {
-            console.log(event.detail)
             this.logo_container.style.border = event.detail
         })
 
@@ -103,6 +103,25 @@ export default class AppLogo extends HTMLElement {
             else{
                 console.error(`Doesnt know the event detail type ${event.detail}`)
             }
+        })
+
+        this.font_input.addEventListener('input', async (event)=>{
+            let custom_font = document.createElement("style")
+            let font_face = await new Promise((resolve, reject)=>{
+                fetch(event.target.value).then((response)=>{
+                    response.text().then((result)=>{
+                        resolve(result)
+                    })
+                }).catch((error)=>{
+                    reject(error)
+                })
+            })
+            custom_font.innerHTML += font_face
+
+            document.head.appendChild(custom_font)
+            let sheet = custom_font.sheet
+            let font_family = sheet.cssRules[0].style.fontFamily
+            this.logo.style.fontFamily = font_family
         })
     }
 
@@ -161,6 +180,43 @@ export default class AppLogo extends HTMLElement {
             setTimeout(() => {
                 this.logo.classList.toggle(this.animationClass)
             }, 100)
+        }
+    }
+
+    _filter_css_key(key, properties){
+        if(properties[key] && isNaN(parseInt(key))) return key
+        return null
+    }
+
+    generateCode(){
+        let css = ``
+        let keyframe = ``
+
+        // HTMLElement style
+
+        let css_rules = appLogoStyle.cssRules
+        let logo_rules = css_rules[Object.keys(css_rules).filter(key => css_rules[key].selectorText == "#logo")]
+        let logo_container_rules = css_rules[Object.keys(css_rules).filter(key => css_rules[key].selectorText == "#logo-container")]
+
+        
+        css += `#logo-container{${this.logo_container.style.cssText}${logo_container_rules.style.cssText}}`
+
+        // Animation style
+        let animation_css = ''
+        if(this.logo.classList.length > 0){
+            this.logo.classList.forEach((c)=>{
+                let animation_class = animation.cssRules[Object.keys(animation.cssRules).filter(key => animation.cssRules[key].selectorText == `.${c}`)[0]]
+                animation_css += animation_class.style.cssText
+                keyframe += animation.cssRules[Object.keys(animation.cssRules).filter(key => animation.cssRules[key].name == c)[0]].cssText
+            })
+        }
+
+        css += `#logo{${logo_rules.style.cssText}${this.logo.style.cssText}${animation_css}}`
+
+        return {
+            html: `<div id="logo-container"><p id="logo">Mon logo</p></div>`,
+            css: `${css}`,
+            keyframe: `${keyframe}`
         }
     }
 }

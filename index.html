@@ -6,29 +6,61 @@
     <title>M2 TP1</title>
     <link href="style.css" rel="stylesheet">
     <meta charset="utf-8" />
-    <base href="/"/>
+    <base href="/" />
 </head>
 
 <body>
-    
+
     <app-logo id="app_logo"></app-logo>
     <div class="controler">
         <button id="generate_code" class="red-bg white-text">Generate Code</button>
         <button id="reload_animation" class="transparent-bg blue-text blue-border">Restart animation</button>
     </div>
-    
+    <div id="popin">
+        <button id="close-popin">X</button>
+        <div>
+            <div>
+                <h3>HTML</h3>
+                <code id="code-html"></code>
+            </div>
+            <div>
+                <h3>CSS</h3>
+                <code id="code-css"></code>
+            </div>
+            <div>
+                <h3>KEYFRAME</h3>
+                <code id="code-keyframe"></code>
+            </div>
+        </div>
+    </div>
+
     <script src="components/index.js" type="module"></script>
     <script>
-        function main(){
+        function main() {
             let logo = document.querySelector("#app_logo")
             let btn_animation = document.querySelector("#reload_animation")
-            btn_animation.addEventListener("click", ()=>{
+            let popin = document.querySelector('#popin')
+            let close_popin_btn = document.querySelector("#close-popin")
+
+            let code_html = document.querySelector('#code-html')
+            let code_css = document.querySelector('#code-css')
+            let code_keyframe = document.querySelector('#code-keyframe')
+
+            btn_animation.addEventListener("click", () => {
                 logo.startAnimation()
             })
 
+            close_popin_btn.addEventListener('click', () => {
+                popin.style.visibility = "hidden"
+            })
+
             let btn_generate = document.querySelector("#generate_code")
-            btn_generate.addEventListener("click", ()=>{
-                // Insert code to generate the code
+            btn_generate.addEventListener("click", () => {
+                let codes = logo.generateCode()
+                popin.style.visibility = "visible"
+                code_html.textContent = codes['html']
+                code_css.innerHTML = codes['css']
+                code_keyframe.innerHTML = codes['keyframe']
             })
         }
 
